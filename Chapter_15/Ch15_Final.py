@@ -620,8 +620,10 @@ accuracy = np.mean(predictions==y_test)
 
 print(f'validation, acc: {accuracy:.3f}, loss: {loss:.3f}')
 
-
+'''
 >>>
+...
 epoch: 9900, acc: 0.668, loss: 0.733 (data_loss: 0.717, reg_loss: 0.016), lr: 0.0334459346466437
 epoch: 10000, acc: 0.688, loss: 0.727 (data_loss: 0.711, reg_loss: 0.016), lr: 0.03333444448148271
 validation, acc: 0.757, loss: 0.712
+'''
