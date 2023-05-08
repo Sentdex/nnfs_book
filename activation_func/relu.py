@@ -5,7 +5,7 @@ import numpy as np
 class Activation_ReLU:
 
     # Forward pass
-    def forward(self, inputs, training):
+    def forward(self, inputs):
         # Remember input values
         self.inputs = inputs
         #y=x if x>=0 else y = 0
