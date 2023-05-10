@@ -18,7 +18,7 @@ class Layer_Dense:
         self.bias_regularizer_l2 = bias_regularizer_l2
 
     # Forward pass
-    def forward(self, inputs, training):
+    def forward(self, inputs):
         # Remember input values
         self.inputs = inputs
         # Calculate output values from inputs, weights and biases
@@ -30,7 +30,6 @@ class Layer_Dense:
         self.dweights = np.dot(self.inputs.T, dvalues)
         #gradient of the sum is the sum of the gradients
         self.dbiases = np.sum(dvalues, axis=0, keepdims=True)
-
 
         # Gradients on regularization
         # L1 on weights
@@ -52,7 +51,7 @@ class Layer_Dense:
             self.dbiases += 2 * self.bias_regularizer_l2 * \
                             self.biases
 
-         #gradient on inputs dy/dinputs= weights(transpose)
+        #gradient on inputs dy/dinputs= weights(transpose)
         self.dinputs = np.dot(dvalues, self.weights.T)
 
     # Retrieve layer parameters
