@@ -3,7 +3,7 @@ import numpy as np
 class Optimizer_SGD:
 
     #default learning rate is 0.1
-    def __init__(self,learning_rate=0.01,decay=0.,momentum=0.):
+    def __init__(self,learning_rate=0.01,decay=0.,momentum=0.9):
         self.learning_rate=learning_rate
         self.current_learning_rate=learning_rate
         self.decay=decay
@@ -31,7 +31,7 @@ class Optimizer_SGD:
             bias_updates=self.momentum*layer.bias_momentums-self.current_learning_rate*layer.biases
             layer.bias_momentums=bias_updates
 
-        #without momentum regular SGD
+        #without momentum regular SGD with decay 
         else:
             weight_updates=-self.current_learning_rate*layer.dweights
             bias_updates=-self.current_learning_rate*layer.biases
