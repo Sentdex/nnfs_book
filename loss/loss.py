@@ -5,7 +5,7 @@ import numpy as np
 class Loss:
 
     # Regularization loss calculation
-    def regularization_loss(self):
+    def regularization_loss(self,layer):
 
         # 0 by default
         regularization_loss = 0
