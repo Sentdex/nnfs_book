@@ -32,7 +32,7 @@ class Optimizer_Adagrad:
         #with square root cache
         layer.weights+=-self.current_learning_rate*layer.dweights/(np.sqrt(layer.weight_cache)+self.epsilon)
         layer.biases+=-self.current_learning_rate*layer.dbiases/(np.sqrt(layer.bias_cache)+self.epsilon)
-
+    
     #call once after update params
     def post_update_params(self):
         self.iterations+=1

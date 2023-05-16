@@ -8,7 +8,6 @@ class Loss_CategoricalCrossentropy(Loss):
     # Forward pass
     def forward(self, y_pred, y_true):
 
-
         # Clip data to prevent division by 0
         # Clip both sides to not drag mean towards any value
         y_pred_clipped = np.clip(y_pred, 1e-7, 1 - 1e-7)

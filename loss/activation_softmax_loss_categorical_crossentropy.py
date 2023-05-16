@@ -3,7 +3,6 @@ import categorical_cross_entropy as Loss_CategoricalCrossentropy
 from activation_func import softmax as Activation_Softmax
 
 
-
 class Activation_Softmax_Loss_CategoricalCrossentropy():
 
     def __init__(self):
