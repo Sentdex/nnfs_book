@@ -12,6 +12,7 @@ class Model:
         self.layers = []
         # Softmax classifier's output object
         self.softmax_classifier_output = None
+        print('test')
 
     # Add objects to the model
     def add(self, layer):
@@ -20,7 +21,7 @@ class Model:
 
     # Set loss, optimizer and accuracy
     def set(self, *, loss=None, optimizer=None, accuracy=None):
-
+        print('done')
         if loss is not None:
             self.loss = loss
 
@@ -29,7 +30,7 @@ class Model:
 
         if accuracy is not None:
             self.accuracy = accuracy
-    
+
 
     # Finalize the model
     def finalize(self):
@@ -95,11 +96,14 @@ class Model:
     def train(self, X, y, *, epochs=1, batch_size=None,
               print_every=1, validation_data=None):
 
+        
         # Initialize accuracy object
         self.accuracy.init(y)
-
+    
         # Default value if batch size is not being set
         train_steps = 1
+        
+        print(f'testing')
 
         # Calculate number of steps
         if batch_size is not None:
@@ -110,10 +114,12 @@ class Model:
             if train_steps * batch_size < len(X):
                 train_steps += 1
 
-
         # Main training loop
         for epoch in range(1, epochs+1):
-
+            
+            print(f'testing:{epoch}')
+            
+        
             # Print epoch number
             print(f'epoch: {epoch}')
 
@@ -135,6 +141,7 @@ class Model:
                     batch_X = X[step*batch_size:(step+1)*batch_size]
                     batch_y = y[step*batch_size:(step+1)*batch_size]
 
+                print('testing-here')
                 # Perform the forward pass
                 output = self.forward(batch_X, training=True)
 
@@ -291,7 +298,6 @@ class Model:
 
     # Performs forward pass
     def forward(self, X, training):
-
         # Call forward method on the input layer
         # this will set the output property that
         # the first layer in "prev" object is expecting

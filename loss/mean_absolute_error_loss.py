@@ -13,9 +13,9 @@ class Loss_MeanAbsoluteError(Loss):
         sample_losses = np.mean(np.abs(y_true - y_pred), axis=-1)
         # Return losses
         return sample_losses
-        # Backward pass
 
 
+    #backward pass 
     def backward(self, dvalues, y_true):
         # Number of samples
         samples = len(dvalues)

@@ -18,7 +18,7 @@ class Layer_Dense:
         self.bias_regularizer_l2 = bias_regularizer_l2
 
     # Forward pass
-    def forward(self, inputs):
+    def forward(self, inputs,training):
         # Remember input values
         self.inputs = inputs
         # Calculate output values from inputs, weights and biases
