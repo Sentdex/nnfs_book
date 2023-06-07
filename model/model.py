@@ -138,11 +138,9 @@ class Model:
                     batch_X = X[step*batch_size:(step+1)*batch_size]
                     batch_y = y[step*batch_size:(step+1)*batch_size]
 
-                print('shape of batch_X ',batch_X.shape)
 
                 # Perform the forward pass
                 output = self.forward(batch_X, training=True)
-                print('testing-here-again')
 
                 # Calculate loss
                 data_loss, regularization_loss = \
