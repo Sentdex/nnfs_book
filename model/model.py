@@ -103,7 +103,6 @@ class Model:
         # Default value if batch size is not being set
         train_steps = 1
         
-        print(f'testing')
 
         # Calculate number of steps
         if batch_size is not None:
@@ -116,12 +115,10 @@ class Model:
 
         # Main training loop
         for epoch in range(1, epochs+1):
-            
-            print(f'testing:{epoch}')
-            
-        
+                        
+    
             # Print epoch number
-            print(f'epoch: {epoch}')
+            print(f'epoch1: {epoch}')
 
             # Reset accumulated values in loss and accuracy objects
             self.loss.new_pass()
@@ -141,9 +138,11 @@ class Model:
                     batch_X = X[step*batch_size:(step+1)*batch_size]
                     batch_y = y[step*batch_size:(step+1)*batch_size]
 
-                print('testing-here')
+                print('shape of batch_X ',batch_X.shape)
+
                 # Perform the forward pass
                 output = self.forward(batch_X, training=True)
+                print('testing-here-again')
 
                 # Calculate loss
                 data_loss, regularization_loss = \

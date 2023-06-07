@@ -4,7 +4,8 @@ import numpy as np
 class Activation_Softmax:
 
     # Forward pass
-    def forward(self, inputs):
+    def forward(self, inputs, training):
+        # Remember input values
         self.inputs = inputs
 
         # Get unnormalized probabilities
@@ -13,6 +14,7 @@ class Activation_Softmax:
         # Normalize them for each sample
         probabilities = exp_values / np.sum(exp_values, axis=1,
                                             keepdims=True)
+
         self.output = probabilities
 
     # Backward pass

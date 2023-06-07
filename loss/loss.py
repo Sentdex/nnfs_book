@@ -5,7 +5,7 @@ import numpy as np
 class Loss:
 
     # Regularization loss calculation
-    def regularization_loss(self,layer):
+    def regularization_loss(self):
 
         # 0 by default
         regularization_loss = 0
@@ -83,8 +83,3 @@ class Loss:
     def new_pass(self):
         self.accumulated_sum = 0
         self.accumulated_count = 0
-
-
-
-
-
