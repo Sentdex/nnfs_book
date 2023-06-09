@@ -1,5 +1,5 @@
 import numpy as np
-import loss as Loss
+from loss.loss import Loss
 
 
  #Binary cross-entropy loss
@@ -15,6 +15,8 @@ class Loss_BinaryCrossentropy(Loss):
         # Calculate sample-wise loss
         sample_losses = -(y_true * np.log(y_pred_clipped) +
                           (1 - y_true) * np.log(1 - y_pred_clipped))
+        
+        #calculate the mean across columns
         sample_losses = np.mean(sample_losses, axis=-1)
 
         # Return losses
