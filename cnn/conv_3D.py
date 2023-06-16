@@ -1,6 +1,8 @@
 import numpy as np
 
 
+
+#TODO:review re-write 
 class Conv3D:
         
     def __init__(self,inputs,weights,biases,padding,stride):

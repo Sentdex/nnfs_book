@@ -1,5 +1,6 @@
 import numpy as np
-import loss as Loss
+from loss.loss import Loss
+
 
 
 # Mean Squared Error loss
@@ -8,9 +9,9 @@ class Loss_MeanSquaredError(Loss):  # L2 loss
     # Forward pass
     def forward(self, y_pred, y_true):
 
-        # Calculate loss
+        # Calculate loss   
         sample_losses = np.mean((y_true - y_pred)**2, axis=-1)
-
+    
         # Return losses
         return sample_losses
 

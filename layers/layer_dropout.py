@@ -15,15 +15,16 @@ class Layer_Dropout:
         # Save input values
         self.inputs = inputs
 
-
         # If not in the training mode - return values
         if not training:
             self.output = inputs.copy()
             return
-
+        
         # Generate and save scaled mask
+        #bernoulli distr is a special case of binomial distr where n=1
         self.binary_mask = np.random.binomial(1, self.rate,
                            size=inputs.shape) / self.rate
+        
         # Apply mask to output values
         self.output = inputs * self.binary_mask
 
