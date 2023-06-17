@@ -5,6 +5,10 @@ This repository is contains the code from the book NNFS([link](https://nnfs.io/)
 Additionally added Convolution layers(conv1d,conv2d,conv3d) and max-pooling layers(max-pool1d,max-pol2d,maxpool3d) to be able to create Convolutional neural networks.
 
 
+Adding normalization layers(batch-normalization).
+
+
+
 This repo is for training and educational purposes.
  
 
