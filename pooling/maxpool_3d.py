@@ -10,7 +10,6 @@ class MaxPooling3D:
         self.mode=mode
 
     def forward(self):
-
         (m, n_H_prev, n_W_prev, n_C_prev) = self.inputs.shape
 
         # dimens of the output

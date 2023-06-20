@@ -7,6 +7,7 @@ Additionally added Convolution layers(conv1d,conv2d,conv3d) and max-pooling laye
 
 Adding normalization layers(batch-normalization).
 
+unit-tests are  written for convolution layers.
 
 
 This repo is for training and educational purposes.
