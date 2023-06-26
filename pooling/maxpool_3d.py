@@ -1,42 +1,43 @@
 import numpy as np
 
 
+
 class MaxPooling3D:
 
-    def __init__(self, inputs, f, stride,mode):
-        self.inputs = inputs
-        self.f = f
-        self.stride = stride
-        self.mode=mode
+    def __init__(self,f,stride):
+        self.f=f
+        self.stride=stride
 
-    def forward(self):
-        (m, n_H_prev, n_W_prev, n_C_prev) = self.inputs.shape
+    def forward(self,inputs):
+        #get inputs shape
+        (m,n_h_prev,n_w_prev,n_c_prev)=inputs.shape
 
-        # dimens of the output
-        n_H = int(1 + (n_H_prev - self.f) / self.stride)
-        n_W = int(1 + (n_W_prev - self.f) / self.stride)
-        n_C = n_C_prev
+        #define output shape
+        n_h=int((n_h_prev-self.f)/self.stride)+1
+        n_w=int((n_w_prev-self.f)/self.stride)+1
 
-        #init output matrix
-        output=np.zeros((m,n_H,n_W,n_C))
+        #init output
+        output=np.zeros((m,n_h,n_w,n_c_prev))
+        
         for i in range(m):
-            for h in range(n_H):
-                for w in range(n_W):
-                    for c in range(n_C):
-                        vert_start =h*self.stride
-                        vert_end = vert_start+self.f
-                        horiz_start = w*self.stride
-                        horiz_end = horiz_start+self.f
-                        a_prev_slice=self.inputs[i,vert_start:vert_end,horiz_start:horiz_end,c]
-
-                        if self.mode=='max':
-                            output[i,h,w,c]=np.max(a_prev_slice)
-                        elif self.mode=='average':
-                            output[i,h,w,c,]=np.mean(a_prev_slice)
-
-                        return output
-                    
+            inputi=inputs[i]
+            for h in range(n_h):
+                for w in range(n_w):
+                    for c in range(n_c_prev):
+                        #define vert/horiz start-end
+                        vert_start=h*self.stride
+                        vert_end=vert_start+self.f
+                        horiz_start=w*self.stride
+                        horiz_end=horiz_start+self.f
+                        
+                        #get image slice
+                        inputi_slice=inputi[vert_start:vert_end,horiz_start:horiz_end,c]
+                        #get max value of inputi_slice 
+                        output[i,h,w,c]=np.max(inputi_slice)
+        
+        return output
 
     #TODO
     def backward(self):
         pass
+
