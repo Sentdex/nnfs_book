@@ -1,7 +1,7 @@
 import unittest
 from convolution.conv_3d import Conv3D
 from convolution.conv_2d import Conv2D
-
+from pooling.maxpool_2d import MaxPooling2D
 import numpy as np
 import torch 
 import torch.nn as nn
@@ -27,10 +27,8 @@ class TestConv3D(unittest.TestCase):
         out=conv2d.zero_padding(inputs)
         self.assertEqual(out.shape[1],inputs.shape[1]+2*pad,'shapes in 2d pad are work')
 
-
-
     def test_conv2d(self):
-     #inputs shapes [n,c_in,h_in,w_in]
+        #inputs shapes [n,c_in,h_in,w_in]
         #m.weights shape is [out_c, in_c, kernel_height, kernel_width]
         input=torch.rand(1,1,3,3)
         m=nn.Conv2d(1,2,[2,2],bias=True,padding=2,
@@ -68,6 +66,31 @@ class TestConv3D(unittest.TestCase):
         self.assertEqual(np.allclose(t_w,conv2d.dweights),1,'weights gradients are close')
         self.assertEqual(np.allclose(t_b,conv2d.dbiases),1,'bias gradients are close')
 
+    # 
+    def test_max_pool2d(self):
+        #inputs shapes [n,c_in,h_in,w_in]
+        input = torch.randn(1, 1, 3, 3)
+        #filter size =[2,2]
+        m = nn.MaxPool2d(2, stride=1)
+        input.requires_grad=True
+        out=m(input)
+        t=torch.sum(out)
+        t.backward()
+        in_grad=input.grad
+        #permute the tensors too match the shapes of maxpool2d 
+        input_permuted=input.permute(0,2,3,1).detach().numpy()[:,:,:,0]
+        input_grad=input.grad.permute(0,2,3,1).detach().numpy()[:,:,:,0]
+        out_perm=out.permute(0,2,3,1).detach().numpy()[:,:,:,0]
+        
+        pool2d=MaxPooling2D(2,1)
+        dvalues=np.ones_like(input_permuted)
+        pool2d.forward(input_permuted)
+        pool2d.backward(dvalues)
+        #forward check
+        self.assertEqual(np.allclose(pool2d.output,out_perm),1,'output values are close')
+        #backward check 
+        self.assertEqual(np.allclose(pool2d.dinputs,input_grad),1,'gradients values are close')
+        
 
 
 
