@@ -21,7 +21,7 @@ class Optimizer_SGD:
         if self.momentum:
 
             if not hasattr(layer,'weight_momentums'):
-                layer.weight_momentums=np.zeros_like(layer.weights)
+                layer.weight_momentums=np.zeros_like(layer.weights) 
                 layer.bias_momentums=np.zeros_like(layer.biases)
             
             #weights updates with momentum

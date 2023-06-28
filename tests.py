@@ -25,7 +25,7 @@ class TestConv3D(unittest.TestCase):
         w_shape=(3,3,2);b_shape=2;pad=3;stride=1
         conv2d=Conv2D(w_shape,b_shape,pad,stride)
         out=conv2d.zero_padding(inputs)
-        self.assertEqual(out.shape[1],inputs.shape[1]+2*pad,'shapes in 2d pad are work')
+        self.assertEqual(out.shape[1],inputs.shape[1]+2*pad,'shapes in 2d pad are wrong')
 
     def test_conv2d(self):
         #inputs shapes [n,c_in,h_in,w_in]
@@ -61,10 +61,10 @@ class TestConv3D(unittest.TestCase):
         conv2d.backward(dinputs)
 
         #all close because of numerical instability to not check equals  
-        self.assertEqual(np.allclose(t_out,conv2d.output),1,'output values are close')
-        self.assertEqual(np.allclose(t_input_grad,conv2d.dinputs),1,'input gradients are close')
-        self.assertEqual(np.allclose(t_w,conv2d.dweights),1,'weights gradients are close')
-        self.assertEqual(np.allclose(t_b,conv2d.dbiases),1,'bias gradients are close')
+        self.assertEqual(np.allclose(t_out,conv2d.output),1,'output values are not close')
+        self.assertEqual(np.allclose(t_input_grad,conv2d.dinputs),1,'input gradients are not close')
+        self.assertEqual(np.allclose(t_w,conv2d.dweights),1,'weights gradients are not close')
+        self.assertEqual(np.allclose(t_b,conv2d.dbiases),1,'bias gradients are not close')
 
     # 
     def test_max_pool2d(self):
@@ -87,9 +87,9 @@ class TestConv3D(unittest.TestCase):
         pool2d.forward(input_permuted)
         pool2d.backward(dvalues)
         #forward check
-        self.assertEqual(np.allclose(pool2d.output,out_perm),1,'output values are close')
+        self.assertEqual(np.allclose(pool2d.output,out_perm),1,'output values are not close')
         #backward check 
-        self.assertEqual(np.allclose(pool2d.dinputs,input_grad),1,'gradients values are close')
+        self.assertEqual(np.allclose(pool2d.dinputs,input_grad),1,'gradients values are not close')
         
 
 
