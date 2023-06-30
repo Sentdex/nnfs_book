@@ -1,1 +1,3 @@
+*.pyc 
 fashion_mnist_images/
+mnist/
