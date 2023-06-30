@@ -2,10 +2,10 @@ import unittest
 from convolution.conv_3d import Conv3D
 from convolution.conv_2d import Conv2D
 from pooling.maxpool_2d import MaxPooling2D
+from pooling.maxpool_3d import MaxPooling3D
 import numpy as np
 import torch 
 import torch.nn as nn
-
 
 class TestConv3D(unittest.TestCase):
     
@@ -13,7 +13,7 @@ class TestConv3D(unittest.TestCase):
     #zero padding shape should match [n+2p]
     def test_zero_pad_3d(self):
         input=np.random.randn(3,6,6,3)
-        w_shape=(3,3,3,2);b_shape=(1,1,1,2);pad=3;stride=1
+        w_shape=(3,3,3,2);b_shape=2;pad=3;stride=1
         conv3d=Conv3D(w_shape,b_shape,pad,stride)
         #conv3d=Conv3D(w,b,padding,stride=1)
         out=conv3d.zero_padding(input)
@@ -91,6 +91,63 @@ class TestConv3D(unittest.TestCase):
         #backward check 
         self.assertEqual(np.allclose(pool2d.dinputs,input_grad),1,'gradients values are not close')
         
+    def test_conv3d(self):
+        input=torch.rand(5,3,10,10)
+        m=nn.Conv2d(3,2,[3,3],bias=True,padding=1,
+            padding_mode='zeros',stride=1)
+        #set params to require gradients 
+        m.requires_grad_=True
+        input.requires_grad=True
+
+        out=m(input)
+        #sum cause t.backward works only on scalar values i think 
+        t=out.sum()
+        t.backward()
+        #permute values to match the shapes of conv2d impl. 
+        t_input_grad=input.grad.permute(0,2,3,1).detach().numpy()
+        t_w=m.weight.grad.permute(2,3,1,0).numpy()
+        t_b=m.bias.grad
+        t_out=out.permute(0,2,3,1).detach().numpy()
+
+        inputs=input.permute(0,2,3,1).detach().numpy()
+        weights=m.weight.permute(2,3,1,0).detach().numpy()
+        biases=m.bias.detach().numpy()
+
+        conv3d=Conv3D([3,3,3,6],6,padding=1,stride=1)
+        conv3d.set_params(weights,biases)
+        conv3d.forward(inputs)
+        dinputs=np.ones_like(conv3d.output)
+        conv3d.backward(dinputs)
+        #all close because of numerical instability to not check equals || round to 3 decimals    
+        self.assertEqual(np.allclose(conv3d.output.round(3),t_out.round(3)),1,'output values are not close')
+        self.assertEqual(np.allclose(conv3d.dweights,t_w),1,'weights gradients  are not close')
+        self.assertEqual(np.allclose(conv3d.dbiases,t_b),1,'bias gradients  are not close')
+        self.assertEqual(np.allclose(conv3d.dinputs,t_input_grad),1,'input gradients  are not close')
+
+    def test_max_pool3d(self):
+        input = torch.randn(1, 1, 3, 3)
+        #filter size =[2,2]
+        m = nn.MaxPool2d(2, stride=1)
+        input.requires_grad=True
+        out=m(input)
+        t=torch.sum(out)
+        t.backward()
+        in_grad=input.grad
+        #permute the tensors too match the shapes of maxpool2d 
+        input_permuted=input.permute(0,2,3,1).detach().numpy()
+        input_grad=input.grad.permute(0,2,3,1).detach().numpy()
+        out_perm=out.permute(0,2,3,1).detach().numpy()
+
+        #init maxpool3D forward backward pass   
+        pool3d=MaxPooling3D(2,stride=1)
+        pool3d.forward(input_permuted)
+        dvalues=np.ones_like(input_permuted)
+        pool3d.backward(dvalues)
+        
+        self.assertEqual(np.allclose(pool3d.output,out_perm),1,'output values are not close')
+        self.assertEqual(np.allclose(pool3d.dinputs,input_grad),1,'output values are not close')
+
+
 
 
 

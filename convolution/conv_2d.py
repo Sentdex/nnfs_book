@@ -83,9 +83,8 @@ class Conv2D:
                         self.dweights[:,:,c]+=np.multiply(input_slice,dvalues[i,h,w,c])
                         #dvalues/dinputs
                         dinputs_padi[vert_start:vert_end,horiz_start:horiz_end]+=self.weights[:,:,c]*dvalues[i,h,w,c]
-        
-        # Set the ith training example's dinputs to the unpaded dinputs_padi
-        self.dinputs[i,:,:]=dinputs_padi[self.padding:-self.padding,self.padding:-self.padding]
+            # Set the ith training example's dinputs to the unpaded dinputs_padi
+            self.dinputs[i,:,:]=dinputs_padi[self.padding:-self.padding,self.padding:-self.padding]
 
         #chain rule for db
         self.dbiases=np.sum(dvalues,axis=(0,1,2))
