@@ -17,7 +17,7 @@ class TestConv3D(unittest.TestCase):
         conv3d=Conv3D(w_shape,b_shape,pad,stride)
         #conv3d=Conv3D(w,b,padding,stride=1)
         out=conv3d.zero_padding(input)
-        self.assertEqual(out.shape[1],input.shape[1]+(2*pad),'shapes in 3d pad are wrong')
+        self.assertEqual(out.shape[1],input.shape[1]+(2*pad),'shapes in 3d pad are not wrong')
 
     #zero padding shape should match [n+2p]
     def test_zero_pad_2d(self):
@@ -143,9 +143,9 @@ class TestConv3D(unittest.TestCase):
         pool3d.forward(input_permuted)
         dvalues=np.ones_like(input_permuted)
         pool3d.backward(dvalues)
-        
+
         self.assertEqual(np.allclose(pool3d.output,out_perm),1,'output values are not close')
-        self.assertEqual(np.allclose(pool3d.dinputs,input_grad),1,'output values are not close')
+        self.assertEqual(np.allclose(pool3d.dinputs,input_grad),1,'dipnuts values are not close')
 
 
 

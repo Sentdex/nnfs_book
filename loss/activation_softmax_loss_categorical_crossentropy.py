@@ -9,8 +9,9 @@ class Activation_Softmax_Loss_CategoricalCrossentropy():
         self.activation = softmax.Activation_Softmax()
         self.loss = categorical_cross_entropy.Loss_CategoricalCrossentropy()
 
-    def forward(self, inputs, y_true):
-        self.activation.forward(inputs)
+    def forward(self, inputs, y_true):  
+        #TODO:delete later training  
+        self.activation.forward(inputs,training=True)
 
         self.output = self.activation.output
 
@@ -35,4 +36,3 @@ class Activation_Softmax_Loss_CategoricalCrossentropy():
 
 
 
-l=Activation_Softmax_Loss_CategoricalCrossentropy()

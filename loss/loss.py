@@ -48,15 +48,14 @@ class Loss:
     # Calculates the data and regularization losses
     # given model output and ground truth values
     def calculate(self, output, y, *, include_regularization=False):
-
+        
         # Calculate sample losses 
         sample_losses = self.forward(output, y)
-
 
         # Calculate mean loss
         data_loss = np.mean(sample_losses)
         
-        # TODO:uncomment Add accumulated sum of losses and sample count
+        # Add accumulated sum of losses and sample count
         self.accumulated_sum += np.sum(sample_losses)
         self.accumulated_count += len(sample_losses)
 

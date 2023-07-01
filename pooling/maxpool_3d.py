@@ -8,7 +8,7 @@ class MaxPooling3D:
         self.f=f
         self.stride=stride
 
-    def forward(self,inputs):
+    def forward(self,inputs,training):
         self.inputs=inputs
         #get inputs shape
         (m,n_h_prev,n_w_prev,n_c_prev)=self.inputs.shape

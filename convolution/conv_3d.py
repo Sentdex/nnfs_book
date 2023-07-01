@@ -12,7 +12,13 @@ class Conv3D:
         self.biases=np.random.randn(b_shape) * 0.1
         self.padding=padding
         self.stride=stride
-    
+        #TODO:add l1 and l2 regularization   
+        self.weight_regularizer_l1 = 0
+        self.weight_regularizer_l2 = 0
+        self.bias_regularizer_l1 = 0
+        self.bias_regularizer_l2 = 0
+
+
     #for comparing results in tests with pytorch  
     def set_params(self,weights,biases):
         self.weights=weights
@@ -25,7 +31,7 @@ class Conv3D:
                                    (0,0)), mode='constant', constant_values = (0,0))
         return inputs_padded
       
-    def forward(self,inputs):
+    def forward(self,inputs,training):
         self.inputs=inputs
         #inputs shape [batch,height,width,c_in]
         (m,n_h_prev,n_w_prev,n_c_prev)=inputs.shape
