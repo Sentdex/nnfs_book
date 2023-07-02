@@ -108,14 +108,13 @@ class TestConv3D(unittest.TestCase):
         t_w=m.weight.grad.permute(2,3,1,0).numpy()
         t_b=m.bias.grad
         t_out=out.permute(0,2,3,1).detach().numpy()
-
         inputs=input.permute(0,2,3,1).detach().numpy()
         weights=m.weight.permute(2,3,1,0).detach().numpy()
         biases=m.bias.detach().numpy()
 
         conv3d=Conv3D([3,3,3,6],6,padding=1,stride=1)
         conv3d.set_params(weights,biases)
-        conv3d.forward(inputs)
+        conv3d.forward(inputs,training=True)
         dinputs=np.ones_like(conv3d.output)
         conv3d.backward(dinputs)
         #all close because of numerical instability to not check equals || round to 3 decimals    
@@ -140,7 +139,7 @@ class TestConv3D(unittest.TestCase):
 
         #init maxpool3D forward backward pass   
         pool3d=MaxPooling3D(2,stride=1)
-        pool3d.forward(input_permuted)
+        pool3d.forward(input_permuted,training=True)
         dvalues=np.ones_like(input_permuted)
         pool3d.backward(dvalues)
 
@@ -148,7 +147,7 @@ class TestConv3D(unittest.TestCase):
         self.assertEqual(np.allclose(pool3d.dinputs,input_grad),1,'dipnuts values are not close')
 
 
-
+    
 
 
 if __name__=='__main__':
